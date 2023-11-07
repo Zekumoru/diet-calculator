@@ -2,8 +2,10 @@
 #define DIETCARD_H
 
 #include <QWidget>
+#include "utils/units.h"
+#include "data/diet.h"
 
-class Diet;
+class QLabel;
 
 class DietCard : public QWidget
 {
@@ -11,8 +13,15 @@ class DietCard : public QWidget
 public:
     explicit DietCard(Diet diet, QWidget *parent = nullptr);
 
-private:
+public slots:
+    void onWeightUnitChanged(WeightUnit unit);
+    void onHeightUnitChanged(HeightUnit unit);
 
+private:
+    Diet *diet;
+
+    QLabel *weightValueLabel;
+    QLabel *heightValueLabel;
 
 };
 

@@ -18,6 +18,8 @@ public:
     explicit InputWidget(QWidget *parent = nullptr);
 
 signals:
+    void weightUnitChanged(WeightUnit unit);
+    void heightUnitChanged(HeightUnit unit);
     void submitted(Diet diet);
 
 private:
