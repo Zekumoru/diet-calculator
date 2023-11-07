@@ -37,7 +37,7 @@ DietCard::DietCard(Diet *diet, QWidget *parent)
     leftLayout->addWidget(heightLabel, 4, 0, 1, 2);
     leftLayout->addWidget(heightValueLabel, 5, 0, 1, 2);
 
-    QLabel *bmiLabel = new QLabel(tr("BMI: 17.3 (Underweight)"));
+    QLabel *bmiLabel = createBMILabel();
     QLabel *bmrLabel = new QLabel(tr("BMR: 1.458 kcal/day"));
     QLabel *sedentaryLabel = new QLabel(tr("Sedentary: 1.149 kcal/day"));
     QLabel *lightLabel = new QLabel(tr("Light: 1.149 kcal/day"));
@@ -100,4 +100,11 @@ void DietCard::onHeightUnitChanged(HeightUnit unit)
     }
 
     heightValueLabel->setText(QString::number(height, 'f', 2) + " " + *unitString);
+}
+
+QLabel *DietCard::createBMILabel()
+{
+    QLabel* bmiLabel = new QLabel(tr("BMI: 17.3 (Underweight)"));
+
+    return bmiLabel;
 }

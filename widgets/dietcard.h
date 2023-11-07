@@ -26,6 +26,7 @@ private:
     QLabel *weightValueLabel;
     QLabel *heightValueLabel;
 
+    QLabel *createBMILabel();
 };
 
 #endif // DIETCARD_H
