@@ -16,10 +16,12 @@
 InputWidget::InputWidget(QWidget *parent)
     : QWidget{parent}
 {
+    QRegularExpressionValidator *intRegex = new QRegularExpressionValidator(QRegularExpression("^(0|[1-9]\\d{0,2})$"));
     QRegularExpressionValidator *doubleRegex = new QRegularExpressionValidator(QRegularExpression("^(0|[1-9]\\d{0,2})?(\\.\\d{0,2})?$"));
 
     QLabel *ageLabel = new QLabel(tr("Age"));
     ageInput = new QLineEdit;
+    ageInput->setValidator(intRegex);
     ageInput->setPlaceholderText(tr("E.g. 22"));
 
     QGroupBox *sexRadioGroup = createBiRadioGroup(
