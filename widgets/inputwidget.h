@@ -22,6 +22,8 @@ signals:
 
 private:
     Diet diet;
+    WeightUnit weightUnit;
+    HeightUnit heightUnit;
 
     QLineEdit *ageInput;
     QLineEdit *weightInput;

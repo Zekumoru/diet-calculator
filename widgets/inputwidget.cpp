@@ -94,6 +94,8 @@ void InputWidget::updateWeightUnit(WeightUnit unit)
     const bool inputWasEmpty = weightInput->text().isEmpty();
     double weight = weightInput->text().toDouble();
 
+    weightUnit = unit;
+
     if (unit == KILOGRAMS) {
         weightInput->setPlaceholderText("E.g. 62.8");
         weight *= (1.0 / POUNDS_PER_KG);
@@ -112,6 +114,8 @@ void InputWidget::updateHeightUnit(HeightUnit unit)
     const double CM_PER_FOOT = 30.48;
     const bool inputWasEmpty = heightInput->text().isEmpty();
     double height = heightInput->text().toDouble();
+
+    heightUnit = unit;
 
     if (unit == CENTIMETERS) {
         heightInput->setPlaceholderText("E.g. 178.2");
@@ -152,5 +156,21 @@ QGroupBox *InputWidget::createBiRadioGroup(const QString title, const QString op
 
 void InputWidget::onSubmit()
 {
+    // TODO: use conversion functions when they become implemented
+    const double POUNDS_PER_KG = 2.20462;
+    const double CM_PER_FOOT = 30.48;
+
+    diet.age = ageInput->text().toInt();
+    diet.weight = weightInput->text().toDouble();
+    diet.height = heightInput->text().toDouble();
+
+    if (weightUnit == POUNDS) {
+        diet.weight *= (1 / POUNDS_PER_KG);
+    }
+
+    if (heightUnit == FEET) {
+        diet.height *= CM_PER_FOOT;
+    }
+
     emit submitted(Diet(diet));
 }
