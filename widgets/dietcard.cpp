@@ -2,6 +2,7 @@
 
 #include <QGridLayout>
 #include <QLabel>
+#include <QPushButton>
 #include <QWidget>
 #include "data/diet.h"
 #include "utils/units.h"
@@ -53,11 +54,18 @@ DietCard::DietCard(Diet diet, QWidget *parent)
     rightLayout->addWidget(activeLabel);
     rightLayout->addWidget(intenseLabel);
 
+    QPushButton *deleteButton = new QPushButton(tr("&Delete"));
+
     QGridLayout *mainLayout = new QGridLayout;
     mainLayout->addLayout(leftLayout, 0, 0);
     mainLayout->addLayout(rightLayout, 0, 1);
+    mainLayout->addWidget(deleteButton, 1, 0, 1, 2);
 
     setLayout(mainLayout);
+
+    connect(deleteButton, &QPushButton::clicked, this, [this]() {
+        emit this->deleteClicked(this);
+    });
 }
 
 void DietCard::onWeightUnitChanged(WeightUnit unit)

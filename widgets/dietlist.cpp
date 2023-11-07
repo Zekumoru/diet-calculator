@@ -29,5 +29,12 @@ DietList::DietList(QWidget *parent)
 
 void DietList::add(Diet diet)
 {
-    listView->insertWidget(0, new DietCard(diet));
+    DietCard *card = new DietCard(diet);
+
+    listView->insertWidget(0, card);
+
+    connect(card, &DietCard::deleteClicked, this, [this](DietCard *card) {
+        this->listView->removeWidget(card);
+        delete card;
+    });
 }

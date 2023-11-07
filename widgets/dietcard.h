@@ -17,6 +17,9 @@ public slots:
     void onWeightUnitChanged(WeightUnit unit);
     void onHeightUnitChanged(HeightUnit unit);
 
+signals:
+    void deleteClicked(DietCard *card);
+
 private:
     Diet *diet;
 
