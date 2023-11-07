@@ -11,7 +11,7 @@ class DietCard : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DietCard(Diet diet, QWidget *parent = nullptr);
+    explicit DietCard(Diet *diet, QWidget *parent = nullptr);
 
 public slots:
     void onWeightUnitChanged(WeightUnit unit);

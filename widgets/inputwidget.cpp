@@ -174,5 +174,5 @@ void InputWidget::onSubmit()
         diet.height *= CM_PER_FOOT;
     }
 
-    emit submitted(Diet(diet));
+    emit submitted(new Diet(diet));
 }

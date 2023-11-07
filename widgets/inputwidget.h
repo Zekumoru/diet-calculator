@@ -20,7 +20,7 @@ public:
 signals:
     void weightUnitChanged(WeightUnit unit);
     void heightUnitChanged(HeightUnit unit);
-    void submitted(Diet diet);
+    void submitted(Diet *diet);
 
 private:
     Diet diet;

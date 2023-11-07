@@ -2,6 +2,7 @@
 
 #include "inputwidget.h"
 #include "dietlist.h"
+#include "utils/units.h"
 
 #include <QGridLayout>
 
@@ -18,5 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     setLayout(mainLayout);
     setWindowTitle(tr("Diet Calculator"));
 
-    QObject::connect(inputWidget, SIGNAL (submitted(Diet)), dietList, SLOT (add(Diet)));
+    connect(inputWidget, SIGNAL (weightUnitChanged(WeightUnit)), dietList, SLOT (onWeightUnitChanged(WeightUnit)));
+    connect(inputWidget, SIGNAL (heightUnitChanged(HeightUnit)), dietList, SLOT (onHeightUnitChanged(HeightUnit)));
+    connect(inputWidget, SIGNAL (submitted(Diet*)), dietList, SLOT (add(Diet*)));
 }

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "data/diet.h"
+#include "utils/units.h"
 
 class QVBoxLayout;
 
@@ -14,9 +15,18 @@ public:
     explicit DietList(QWidget *parent = nullptr);
 
 public slots:
-    void add(Diet diet);
+    void add(Diet *diet);
+    void onWeightUnitChanged(WeightUnit unit);
+    void onHeightUnitChanged(HeightUnit unit);
+
+signals:
+    void weightUnitChanged(WeightUnit unit);
+    void heightUnitChanged(HeightUnit unit);
 
 private:
+    WeightUnit weightUnit;
+    HeightUnit heightUnit;
+
     QVBoxLayout *listView;
 
 };
