@@ -95,6 +95,7 @@ void InputWidget::updateWeightUnit(WeightUnit unit)
     double weight = weightInput->text().toDouble();
 
     weightUnit = unit;
+    emit weightUnitChanged(unit);
 
     if (unit == KILOGRAMS) {
         weightInput->setPlaceholderText("E.g. 62.8");
@@ -116,6 +117,7 @@ void InputWidget::updateHeightUnit(HeightUnit unit)
     double height = heightInput->text().toDouble();
 
     heightUnit = unit;
+    emit heightUnitChanged(unit);
 
     if (unit == CENTIMETERS) {
         heightInput->setPlaceholderText("E.g. 178.2");
