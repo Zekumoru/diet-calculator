@@ -9,6 +9,8 @@
 #include <QPushButton>
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
+#include <QString>
+#include <cstdbool>
 #include "utils/units.h"
 
 InputWidget::InputWidget(QWidget *parent)
@@ -35,16 +37,17 @@ InputWidget::InputWidget(QWidget *parent)
     weightInput = new QLineEdit;
     weightInput->setValidator(doubleRegex);
     weightInput->setPlaceholderText(tr("E.g. 62.8"));
+    weightInput->setValidator(doubleRegex);
 
     QGroupBox *weightRadioGroup = createBiRadioGroup(
         tr(nullptr),
         tr("&kg"),
         [this]() {
-            this->weightUnit = KILOGRAMS;
+            this->updateWeightUnit(KILOGRAMS);;
         },
         tr("&lbs"),
         [this]() {
-            this->weightUnit = POUNDS;
+            this->updateWeightUnit(POUNDS);;
         });
 
     QLabel *heightLabel = new QLabel(tr("Height"));
@@ -56,11 +59,11 @@ InputWidget::InputWidget(QWidget *parent)
         tr(nullptr),
         tr("&cm"),
         [this]() {
-            this->heightUnit = CENTIMETERS;
+            this->updateHeightUnit(CENTIMETERS);
         },
         tr("&ft"),
         [this]() {
-            this->heightUnit = FEET;
+            this->updateHeightUnit(FEET);
         });
 
     QPushButton *submitButton = new QPushButton(tr("&Submit"));
@@ -80,6 +83,44 @@ InputWidget::InputWidget(QWidget *parent)
     setLayout(mainLayout);
 
     connect(submitButton, SIGNAL (clicked()), this, SLOT (onSubmit()));
+}
+
+void InputWidget::updateWeightUnit(WeightUnit unit)
+{
+    // TODO: Implement functions to convert kg to lbs and vice versa
+    const double POUNDS_PER_KG = 2.20462;
+    const bool inputWasEmpty = weightInput->text().isEmpty();
+    double weight = weightInput->text().toDouble();
+
+    if (unit == KILOGRAMS) {
+        weightInput->setPlaceholderText("E.g. 62.8");
+        weight *= (1.0 / POUNDS_PER_KG);
+    } else {
+        weightInput->setPlaceholderText("E.g. 138.45");
+        weight *= POUNDS_PER_KG;
+    }
+
+    if (inputWasEmpty) return;
+    weightInput->setText(QString::number(weight, 'f', 2));
+}
+
+void InputWidget::updateHeightUnit(HeightUnit unit)
+{
+    // TODO: Implement functions to convert cm to ft and vice versa
+    const double CM_PER_FOOT = 30.48;
+    const bool inputWasEmpty = heightInput->text().isEmpty();
+    double height = heightInput->text().toDouble();
+
+    if (unit == CENTIMETERS) {
+        heightInput->setPlaceholderText("E.g. 178.2");
+        height *= CM_PER_FOOT;
+    } else {
+        heightInput->setPlaceholderText("E.g. 5.85");
+        height *= (1.0 / CM_PER_FOOT);
+    }
+
+    if (inputWasEmpty) return;
+    heightInput->setText(QString::number(height, 'f', 2));
 }
 
 template<typename Func1, typename Func2>
