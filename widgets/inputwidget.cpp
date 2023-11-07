@@ -19,6 +19,8 @@ InputWidget::InputWidget(QWidget *parent)
     QRegularExpressionValidator *intRegex = new QRegularExpressionValidator(QRegularExpression("^(0|[1-9]\\d{0,2})$"));
     QRegularExpressionValidator *doubleRegex = new QRegularExpressionValidator(QRegularExpression("^(0|[1-9]\\d{0,2})?(\\.\\d{0,2})?$"));
 
+    sex = MALE;
+
     QLabel *ageLabel = new QLabel(tr("Age"));
     ageInput = new QLineEdit;
     ageInput->setValidator(intRegex);
@@ -28,11 +30,14 @@ InputWidget::InputWidget(QWidget *parent)
         tr("Sex"),
         tr("&Male"),
         [this]() {
-            this->diet.sex = MALE;
+            this->sex = MALE;
         },
         tr("&Female"),
         [this]() {
-            this->diet.sex = FEMALE;
+            this->sex = FEMALE;
+        },
+        [this](QRadioButton *maleButton, QRadioButton*) {
+            this->maleButton = maleButton;
         });
 
     QLabel *weightLabel = new QLabel(tr("Weight"));
@@ -131,8 +136,15 @@ void InputWidget::updateHeightUnit(HeightUnit unit)
     heightInput->setText(QString::number(height, 'f', 2));
 }
 
+
 template<typename Func1, typename Func2>
 QGroupBox *InputWidget::createBiRadioGroup(const QString title, const QString op1, Func1 &&op1Selected, const QString op2, Func2 &&op2Selected)
+{
+    return createBiRadioGroup(title, op1, op1Selected, op2, op2Selected, [](QRadioButton*, QRadioButton*){});
+}
+
+template<typename Func1, typename Func2, typename Func3>
+QGroupBox *InputWidget::createBiRadioGroup(const QString title, const QString op1, Func1 &&op1Selected, const QString op2, Func2 &&op2Selected, Func3 &&opButtons)
 {
     QGroupBox *group = new QGroupBox(title);
     QRadioButton *op1Radio = new QRadioButton(op1);
@@ -153,7 +165,19 @@ QGroupBox *InputWidget::createBiRadioGroup(const QString title, const QString op
     layout->addWidget(op2Radio);
     group->setLayout(layout);
 
+    opButtons(op1Radio, op2Radio);
+
     return group;
+}
+
+void InputWidget::clear()
+{
+    sex = MALE;
+    maleButton->setChecked(true);
+
+    ageInput->clear();
+    weightInput->clear();
+    heightInput->clear();
 }
 
 void InputWidget::onSubmit()
@@ -162,17 +186,18 @@ void InputWidget::onSubmit()
     const double POUNDS_PER_KG = 2.20462;
     const double CM_PER_FOOT = 30.48;
 
-    diet.age = ageInput->text().toInt();
-    diet.weight = weightInput->text().toDouble();
-    diet.height = heightInput->text().toDouble();
+    int age = ageInput->text().toInt();
+    double weight = weightInput->text().toDouble();
+    double height = heightInput->text().toDouble();
 
     if (weightUnit == POUNDS) {
-        diet.weight *= (1 / POUNDS_PER_KG);
+        weight *= (1 / POUNDS_PER_KG);
     }
 
     if (heightUnit == FEET) {
-        diet.height *= CM_PER_FOOT;
+        height *= CM_PER_FOOT;
     }
 
-    emit submitted(new Diet(diet));
+    emit submitted(new Diet(age, this->sex, weight, height));
+    clear();
 }
