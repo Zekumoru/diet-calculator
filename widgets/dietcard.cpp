@@ -70,13 +70,11 @@ DietCard::DietCard(Diet *diet, QWidget *parent)
 
 void DietCard::onWeightUnitChanged(WeightUnit unit)
 {
-    // TODO: Implement functions to convert kg to lbs and vice versa
-    const double POUNDS_PER_KG = 2.20462;
     double weight = diet->weight;
     QString *unitString;
 
     if (unit == POUNDS) {
-        weight *= POUNDS_PER_KG;
+        weight = kgToLbs(weight);
         unitString = new QString(tr("lbs"));
     } else {
         unitString = new QString(tr("kg"));
@@ -87,13 +85,11 @@ void DietCard::onWeightUnitChanged(WeightUnit unit)
 
 void DietCard::onHeightUnitChanged(HeightUnit unit)
 {
-    // TODO: Implement functions to convert cm to ft and vice versa
-    const double CM_PER_FOOT = 30.48;
     double height = diet->height;
     QString *unitString;
 
     if (unit == FEET) {
-        height *= (1 / CM_PER_FOOT);
+        height = cmToFeet(height);
         unitString = new QString(tr("ft"));
     } else {
         unitString = new QString(tr("cm"));

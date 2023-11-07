@@ -94,8 +94,6 @@ InputWidget::InputWidget(QWidget *parent)
 
 void InputWidget::updateWeightUnit(WeightUnit unit)
 {
-    // TODO: Implement functions to convert kg to lbs and vice versa
-    const double POUNDS_PER_KG = 2.20462;
     const bool inputWasEmpty = weightInput->text().isEmpty();
     double weight = weightInput->text().toDouble();
 
@@ -104,10 +102,10 @@ void InputWidget::updateWeightUnit(WeightUnit unit)
 
     if (unit == KILOGRAMS) {
         weightInput->setPlaceholderText("E.g. 62.8");
-        weight *= (1.0 / POUNDS_PER_KG);
+        weight = lbsToKg(weight);
     } else {
         weightInput->setPlaceholderText("E.g. 138.45");
-        weight *= POUNDS_PER_KG;
+        weight = kgToLbs(weight);
     }
 
     if (inputWasEmpty) return;
@@ -116,8 +114,6 @@ void InputWidget::updateWeightUnit(WeightUnit unit)
 
 void InputWidget::updateHeightUnit(HeightUnit unit)
 {
-    // TODO: Implement functions to convert cm to ft and vice versa
-    const double CM_PER_FOOT = 30.48;
     const bool inputWasEmpty = heightInput->text().isEmpty();
     double height = heightInput->text().toDouble();
 
@@ -126,10 +122,10 @@ void InputWidget::updateHeightUnit(HeightUnit unit)
 
     if (unit == CENTIMETERS) {
         heightInput->setPlaceholderText("E.g. 178.2");
-        height *= CM_PER_FOOT;
+        height = feetToCm(height);
     } else {
         heightInput->setPlaceholderText("E.g. 5.85");
-        height *= (1.0 / CM_PER_FOOT);
+        height = cmToFeet(height);
     }
 
     if (inputWasEmpty) return;

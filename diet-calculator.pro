@@ -9,6 +9,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 SOURCES += \
     data/diet.cpp \
     main.cpp \
+    utils/units.cpp \
     widgets/dietcard.cpp \
     widgets/dietlist.cpp \
     widgets/inputwidget.cpp \
