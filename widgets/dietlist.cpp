@@ -24,7 +24,7 @@ DietList::DietList(QWidget *parent)
     mainLayout->addWidget(scrollArea, 0, 0);
 
     setLayout(mainLayout);
-    resize(460, 380);
+    setMinimumWidth(480);
 }
 
 void DietList::add(Diet diet)

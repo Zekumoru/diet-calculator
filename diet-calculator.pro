@@ -11,11 +11,13 @@ SOURCES += \
     main.cpp \
     widgets/dietcard.cpp \
     widgets/dietlist.cpp \
-    widgets/inputwidget.cpp
+    widgets/inputwidget.cpp \
+    widgets/mainwindow.cpp
 
 HEADERS += \
     data/diet.h \
     utils/units.h \
     widgets/dietcard.h \
     widgets/dietlist.h \
-    widgets/inputwidget.h
+    widgets/inputwidget.h \
+    widgets/mainwindow.h
