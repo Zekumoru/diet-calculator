@@ -7,15 +7,15 @@
 #include "data/diet.h"
 #include "utils/units.h"
 
-DietCard::DietCard(Diet diet, QWidget *parent)
+DietCard::DietCard(Diet *diet, QWidget *parent)
     : QWidget{parent}
 {
-    this->diet = &diet;
+    this->diet = diet;
 
     QLabel *ageLabel = new QLabel(tr("Age"));
-    QLabel *ageValueLabel = new QLabel(QString::number(diet.age));
+    QLabel *ageValueLabel = new QLabel(QString::number(diet->age));
 
-    QString sexValue = (diet.sex == MALE)? tr("Male") : tr("Female");
+    QString sexValue = (diet->sex == MALE)? tr("Male") : tr("Female");
     QLabel *sexLabel = new QLabel(tr("Sex"));
     QLabel *sexValueLabel = new QLabel(sexValue);
 
