@@ -7,11 +7,15 @@
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QPushButton>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
 #include "utils/units.h"
 
 InputWidget::InputWidget(QWidget *parent)
     : QWidget{parent}
 {
+    QRegularExpressionValidator *doubleRegex = new QRegularExpressionValidator(QRegularExpression("^(0|[1-9]\\d{0,2})?(\\.\\d{0,2})?$"));
+
     QLabel *ageLabel = new QLabel(tr("Age"));
     ageInput = new QLineEdit;
     ageInput->setPlaceholderText(tr("E.g. 22"));
@@ -29,6 +33,7 @@ InputWidget::InputWidget(QWidget *parent)
 
     QLabel *weightLabel = new QLabel(tr("Weight"));
     weightInput = new QLineEdit;
+    weightInput->setValidator(doubleRegex);
     weightInput->setPlaceholderText(tr("E.g. 62.8"));
 
     QGroupBox *weightRadioGroup = createBiRadioGroup(
@@ -44,6 +49,7 @@ InputWidget::InputWidget(QWidget *parent)
 
     QLabel *heightLabel = new QLabel(tr("Height"));
     heightInput = new QLineEdit;
+    heightInput->setValidator(doubleRegex);
     heightInput->setPlaceholderText(tr("E.g. 178.2"));
 
     QGroupBox *heightRadioGroup = createBiRadioGroup(
