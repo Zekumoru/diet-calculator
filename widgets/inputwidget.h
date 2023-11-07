@@ -9,6 +9,7 @@ class QLabel;
 class QLineEdit;
 class QGroupBox;
 class QString;
+class QRadioButton;
 
 class InputWidget : public QWidget
 {
@@ -23,19 +24,24 @@ signals:
     void submitted(Diet *diet);
 
 private:
-    Diet diet;
+    Sex sex;
     WeightUnit weightUnit;
     HeightUnit heightUnit;
 
     QLineEdit *ageInput;
     QLineEdit *weightInput;
     QLineEdit *heightInput;
+    QRadioButton *maleButton;
 
+    void clear();
     void updateWeightUnit(WeightUnit unit);
     void updateHeightUnit(HeightUnit unit);
 
     template<typename Func1, typename Func2>
     QGroupBox *createBiRadioGroup(const QString title, const QString op1, Func1 &&op1Selected, const QString op2, Func2 &&op2Selected);
+
+    template<typename Func1, typename Func2, typename Func3>
+    QGroupBox *createBiRadioGroup(const QString title, const QString op1, Func1 &&op1Selected, const QString op2, Func2 &&op2Selected, Func3 &&opButtons);
 
 private slots:
     void onSubmit();
