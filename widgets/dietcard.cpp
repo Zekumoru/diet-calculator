@@ -6,6 +6,7 @@
 #include <QWidget>
 #include "data/diet.h"
 #include "utils/units.h"
+#include "utils/health.h"
 
 DietCard::DietCard(Diet *diet, QWidget *parent)
     : QWidget{parent}
@@ -38,12 +39,14 @@ DietCard::DietCard(Diet *diet, QWidget *parent)
     leftLayout->addWidget(heightValueLabel, 5, 0, 1, 2);
 
     QLabel *bmiLabel = createBMILabel();
-    QLabel *bmrLabel = new QLabel(tr("BMR: 1.458 kcal/day"));
-    QLabel *sedentaryLabel = new QLabel(tr("Sedentary: 1.149 kcal/day"));
-    QLabel *lightLabel = new QLabel(tr("Light: 1.149 kcal/day"));
-    QLabel *moderateLabel = new QLabel(tr("Moderate: 1.149 kcal/day"));
-    QLabel *activeLabel = new QLabel(tr("Active: 1.149 kcal/day"));
-    QLabel *intenseLabel = new QLabel(tr("Intense: 1.149 kcal/day"));
+
+    double bmr = Health::bmr(diet->sex, diet->age, diet->weight, diet->height);
+    QLabel *bmrLabel = new QLabel(tr("BMR: %1 kcal/day").arg(bmr));
+    QLabel *sedentaryLabel = new QLabel(tr("Sedentary: %1 kcal/day").arg(Health::caloriesBasedOnActivity(bmr, Health::SEDENTARY)));
+    QLabel *lightLabel = new QLabel(tr("Light: %1 kcal/day").arg(Health::caloriesBasedOnActivity(bmr, Health::LIGHT)));
+    QLabel *moderateLabel = new QLabel(tr("Moderate: %1 kcal/day").arg(Health::caloriesBasedOnActivity(bmr, Health::MODERATE)));
+    QLabel *activeLabel = new QLabel(tr("Active: %1 kcal/day").arg(Health::caloriesBasedOnActivity(bmr, Health::ACTIVE)));
+    QLabel *intenseLabel = new QLabel(tr("Intense: %1 kcal/day").arg(Health::caloriesBasedOnActivity(bmr, Health::INTENSE)));
 
     QGridLayout *rightLayout = new QGridLayout;
     rightLayout->addWidget(bmiLabel);
@@ -100,7 +103,27 @@ void DietCard::onHeightUnitChanged(HeightUnit unit)
 
 QLabel *DietCard::createBMILabel()
 {
-    QLabel* bmiLabel = new QLabel(tr("BMI: 17.3 (Underweight)"));
+    double bmi = Health::bmi(diet->weight, diet->height);
+    QString *state;
+
+    switch (Health::stateFromBMI(bmi)) {
+    case Health::UNDERWEIGHT:
+        state = new QString(tr("Underweight"));
+        break;
+    case Health::HEALTHY:
+        state = new QString(tr("Healthy"));
+        break;
+    case Health::OVERWEIGHT:
+        state = new QString(tr("Overweight"));
+        break;
+    case Health::OBESE:
+        state = new QString(tr("Obese"));
+        break;
+    default:
+        state = new QString(tr("Undefined"));
+    }
+
+    QLabel* bmiLabel = new QLabel(tr("BMI: %1 (%2)").arg(bmi).arg(*state));
 
     return bmiLabel;
 }
