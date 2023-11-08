@@ -24,6 +24,9 @@ signals:
     void submitted(Diet *diet);
 
 private:
+    const double exampleWeight = 62.8;
+    const double exampleHeight = 178.2;
+
     Sex sex;
     WeightUnit weightUnit;
     HeightUnit heightUnit;

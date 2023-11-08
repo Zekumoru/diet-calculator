@@ -43,7 +43,7 @@ InputWidget::InputWidget(QWidget *parent)
     QLabel *weightLabel = new QLabel(tr("Weight"));
     weightInput = new QLineEdit;
     weightInput->setValidator(doubleRegex);
-    weightInput->setPlaceholderText(tr("E.g. 62.8"));
+    weightInput->setPlaceholderText(tr("E.g. %1").arg(exampleWeight));
     weightInput->setValidator(doubleRegex);
 
     QGroupBox *weightRadioGroup = createBiRadioGroup(
@@ -60,7 +60,7 @@ InputWidget::InputWidget(QWidget *parent)
     QLabel *heightLabel = new QLabel(tr("Height"));
     heightInput = new QLineEdit;
     heightInput->setValidator(doubleRegex);
-    heightInput->setPlaceholderText(tr("E.g. 178.2"));
+    heightInput->setPlaceholderText(tr("E.g. %2").arg(exampleHeight));
 
     QGroupBox *heightRadioGroup = createBiRadioGroup(
         tr(nullptr),
@@ -101,10 +101,10 @@ void InputWidget::updateWeightUnit(WeightUnit unit)
     emit weightUnitChanged(unit);
 
     if (unit == KILOGRAMS) {
-        weightInput->setPlaceholderText("E.g. 62.8");
+        weightInput->setPlaceholderText(tr("E.g. %1").arg(exampleWeight));
         weight = lbsToKg(weight);
     } else {
-        weightInput->setPlaceholderText("E.g. 138.45");
+        weightInput->setPlaceholderText(tr("E.g. %1").arg(QString::number(kgToLbs(exampleWeight), 'f', 2)));
         weight = kgToLbs(weight);
     }
 
@@ -121,10 +121,10 @@ void InputWidget::updateHeightUnit(HeightUnit unit)
     emit heightUnitChanged(unit);
 
     if (unit == CENTIMETERS) {
-        heightInput->setPlaceholderText("E.g. 178.2");
+        heightInput->setPlaceholderText(tr("E.g. %1").arg(exampleHeight));
         height = feetToCm(height);
     } else {
-        heightInput->setPlaceholderText("E.g. 5.85");
+        heightInput->setPlaceholderText(tr("E.g. %1").arg(QString::number(cmToFeet(exampleHeight), 'f', 2)));
         height = cmToFeet(height);
     }
 
