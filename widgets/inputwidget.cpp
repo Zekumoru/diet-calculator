@@ -178,20 +178,16 @@ void InputWidget::clear()
 
 void InputWidget::onSubmit()
 {
-    // TODO: use conversion functions when they become implemented
-    const double POUNDS_PER_KG = 2.20462;
-    const double CM_PER_FOOT = 30.48;
-
     int age = ageInput->text().toInt();
     double weight = weightInput->text().toDouble();
     double height = heightInput->text().toDouble();
 
     if (weightUnit == POUNDS) {
-        weight *= (1 / POUNDS_PER_KG);
+        weight = lbsToKg(weight);
     }
 
     if (heightUnit == FEET) {
-        height *= CM_PER_FOOT;
+        height = feetToCm(height);
     }
 
     emit submitted(new Diet(age, this->sex, weight, height));
