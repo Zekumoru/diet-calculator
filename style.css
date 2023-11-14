@@ -1,5 +1,5 @@
 #screen-wrapper {
-    overflow-x: scroll;
+    overflow-x: auto;
     position: relative;
     margin: 2rem auto;
 }
