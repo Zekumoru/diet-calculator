@@ -1,5 +1,11 @@
-#screen {
+#screen-wrapper {
+    overflow-x: scroll;
+    position: relative;
     margin: 2rem auto;
+}
+
+#screen {
     width: 860px;
     height: 440px;
+    margin-bottom: 0.3rem;
 }
