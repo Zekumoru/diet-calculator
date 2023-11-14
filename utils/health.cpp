@@ -3,7 +3,8 @@
 
 double Health::bmi(double weight, double height)
 {
-    return weight / (height * height / 1000);
+    const double CM2_TO_M2_FACTOR = 10000;
+    return weight / (height * height / CM2_TO_M2_FACTOR);
 }
 
 Health::BMIState Health::stateFromBMI(double bmi)

@@ -123,7 +123,7 @@ QLabel *DietCard::createBMILabel()
         state = new QString(tr("Undefined"));
     }
 
-    QLabel* bmiLabel = new QLabel(tr("BMI: %1 (%2)").arg(bmi).arg(*state));
+    QLabel* bmiLabel = new QLabel(tr("BMI: %1 (%2)").arg(QString::number(bmi, 'f', 2)).arg(*state));
 
     return bmiLabel;
 }
